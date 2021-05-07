@@ -104,17 +104,17 @@ public class UriTest {
 
     public void aaaaaaa(String uri) {
 
-        String pattern = "^(([^:/?#]+):)?(//(([^@\\[/?#]*)@)?(\\[[\\p{XDigit}:.]*[%\\p{Alnum}]*]|[^\\[/?#:]*)(:(.[^/]*(?:\\{[^/]+?})?))?)?([^?#]*)(\\?([^#]*))?(#(.*))?";
+        String pattern = "^([^/?#]+://)?((([^@\\[/?#]*)@)?(\\[[\\p{XDigit}:.]*[%\\p{Alnum}]*]|[^\\[/?#:]*)(:(.[^/]*(?:\\{[^/]+?})?))?)?([^?#]*)(\\?([^#]*))?(#(.*))?";
         Pattern p = Pattern.compile(pattern);
         java.util.regex.Matcher matcher = p.matcher(uri);
         if (matcher.matches()) {
-            String scheme = matcher.group(2);
-            String userInfo = matcher.group(5);
-            String host = matcher.group(6);
-            String port = matcher.group(8);
-            String path = matcher.group(9);
-            String query = matcher.group(11);
-            String fragment = matcher.group(13);
+            String scheme = matcher.group(1);
+            String userInfo = matcher.group(4);
+            String host = matcher.group(5);
+            String port = matcher.group(6);
+            String path = matcher.group(8);
+            String query = matcher.group(10);
+            String fragment = matcher.group(12);
             boolean opaque = false;
             if (StringUtils.hasLength(scheme)) {
                 String rest = uri.substring(scheme.length());
@@ -133,6 +133,8 @@ public class UriTest {
         aaaaaaa("https://wwww.naver.com:port/path");
         aaaaaaa("wwww.naver.com:port/path");
         aaaaaaa("https://wwww.naver.com:port");
+        aaaaaaa("https://127.0.0.1:port");
+        aaaaaaa("jdbc:mysql://aaaa.com/");
 
     }
 }
